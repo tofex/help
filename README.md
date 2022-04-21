@@ -1,13 +1,13 @@
-# xml-writer
+# help
 
-Tofex XML Writer provides a class to write XML files.
+Tofex Help provides helping classes for all Tofex developments.
 
 ## Installation
 
 ```bash
-$ composer require tofex/xml-writer
+$ composer require tofex/help
 ```
 
 ## License
 
-Tofex XML Writer is licensed under the MIT License - see the LICENSE file for details.
+Tofex Help is licensed under the MIT License - see the LICENSE file for details.
