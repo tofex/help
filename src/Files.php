@@ -12,22 +12,28 @@ use InvalidArgumentException;
  */
 class Files
 {
-    /** @var Arrays */
-    protected $arrayHelper;
-
     /** @var Variables */
     protected $variableHelper;
 
+    /** @var Arrays */
+    protected $arrayHelper;
+
     /**
-     * @param Arrays    $arrayHelper
-     * @param Variables $variableHelper
+     * @param Arrays|null    $arrayHelper
+     * @param Variables|null $variableHelper
      */
-    public function __construct(
-        Arrays $arrayHelper,
-        Variables $variableHelper)
+    public function __construct(Variables $variableHelper = null, Arrays $arrayHelper = null)
     {
-        $this->arrayHelper = $arrayHelper;
+        if ($variableHelper === null) {
+            $variableHelper = new Variables();
+        }
+
+        if ($arrayHelper === null) {
+            $arrayHelper = new Arrays($variableHelper);
+        }
+
         $this->variableHelper = $variableHelper;
+        $this->arrayHelper = $arrayHelper;
     }
 
     /**

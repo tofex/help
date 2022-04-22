@@ -15,10 +15,14 @@ class Arrays
     protected $variableHelper;
 
     /**
-     * @param Variables $variableHelper
+     * @param Variables|null $variableHelper
      */
-    public function __construct(Variables $variableHelper)
+    public function __construct(Variables $variableHelper = null)
     {
+        if ($variableHelper === null) {
+            $variableHelper = new Variables();
+        }
+
         $this->variableHelper = $variableHelper;
     }
 

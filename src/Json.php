@@ -13,14 +13,18 @@ use JsonSerializable;
 class Json
 {
     /** @var Variables */
-    protected $variableInterface;
+    protected $variableHelper;
 
     /**
-     * @param Variables $variableHelper
+     * @param Variables|null $variableHelper
      */
-    public function __construct(Variables $variableHelper)
+    public function __construct(Variables $variableHelper = null)
     {
-        $this->variableInterface = $variableHelper;
+        if ($variableHelper === null) {
+            $variableHelper = new Variables();
+        }
+
+        $this->variableHelper = $variableHelper;
     }
 
     /**
@@ -30,7 +34,7 @@ class Json
      */
     public function decode(?string $encodedValue)
     {
-        if ( ! $this->variableInterface->isEmpty($encodedValue)) {
+        if ( ! $this->variableHelper->isEmpty($encodedValue)) {
             return json_decode($encodedValue, true);
         }
 
