@@ -14,16 +14,26 @@ class Arrays
     /** @var Variables */
     protected $variableHelper;
 
+    /** @var Strings */
+    protected $stringHelper;
+
     /**
      * @param Variables|null $variableHelper
+     * @param Strings|null   $stringHelper
      */
-    public function __construct(Variables $variableHelper = null)
+    public function __construct(Variables $variableHelper = null, Strings $stringHelper = null)
     {
         if ($variableHelper === null) {
             $variableHelper = new Variables();
         }
 
         $this->variableHelper = $variableHelper;
+
+        if ($stringHelper === null) {
+            $stringHelper = new Strings();
+        }
+
+        $this->stringHelper = $stringHelper;
     }
 
     /**
@@ -509,5 +519,69 @@ class Arrays
     public function getLast(array $array)
     {
         return array_slice($array, -1)[ 0 ];
+    }
+
+    /**
+     * @param array $array1
+     * @param array $array2
+     * @param bool  $strict
+     *
+     * @return array
+     */
+    public function arrayDiffRecursive(array $array1, array $array2, bool $strict = false): array
+    {
+        $result = [];
+
+        foreach ($array1 as $key1 => $value1) {
+            if (array_key_exists($key1, $array2)) {
+                $value2 = $array2[ $key1 ];
+
+                if (is_array($value1) || is_array($value2)) {
+                    if (is_array($value1) && is_array($value2)) {
+                        $valuesDiff = $this->arrayDiffRecursive($value1, $value2, $strict);
+
+                        if ( ! empty($valuesDiff)) {
+                            $result[ $key1 ] = $valuesDiff;
+                        }
+                    } else {
+                        $result[ $key1 ] = $value2;
+                    }
+                } else {
+                    if (($strict && $value1 !== $value2) || ( ! $strict && $value1 != $value2)) {
+                        $result[ $key1 ] = $value2;
+                    }
+                }
+            } else {
+                $result[ $key1 ] = $value1;
+            }
+        }
+
+        foreach ($array2 as $key2 => $value2) {
+            if ( ! array_key_exists($key2, $array1)) {
+                $result[ $key2 ] = $value2;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return array
+     */
+    public function cleanStrings(array $array): array
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $array[ $key ] = $this->cleanStrings($value);
+            } else {
+                if (is_string($value)) {
+                    $array[ $key ] = $this->stringHelper->cleanString($value);
+                }
+            }
+        }
+
+        return $array;
     }
 }
