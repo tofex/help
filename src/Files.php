@@ -81,26 +81,28 @@ class Files
      * Method to read Files from directory
      *
      * @param string $path
+     * @param string $basePath
      *
      * @return array
      * @throws Exception
      */
-    public function determineFilesFromFilePath(string $path): array
+    public function determineFilesFromFilePath(string $path, string $basePath): array
     {
-        return $this->determineFromFilePath($path, true, false);
+        return $this->determineFromFilePath($path, $basePath, true, false);
     }
 
     /**
      * Method to read Files from directory
      *
      * @param string $path
+     * @param string $basePath
      *
      * @return array
      * @throws Exception
      */
-    public function determineDirectoriesFromFilePath(string $path): array
+    public function determineDirectoriesFromFilePath(string $path, string $basePath): array
     {
-        return $this->determineFromFilePath($path, false);
+        return $this->determineFromFilePath($path, $basePath, false);
     }
 
     /**
