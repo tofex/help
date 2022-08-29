@@ -17,7 +17,7 @@ class Variables
     public function isEmpty($value): bool
     {
         return ! is_bool($value) && empty($value) &&
-            (is_array($value) || is_object($value) || strlen(trim($value)) === 0);
+            (is_array($value) || is_object($value) || strlen(trim($value ?? '')) === 0);
     }
 
     /**
