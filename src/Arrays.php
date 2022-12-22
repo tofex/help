@@ -158,9 +158,7 @@ class Arrays
     {
         $array = ( array )$stdClassObject;
 
-        $array = $this->stdClassToArrayCheckValues($array);
-
-        return $array;
+        return $this->stdClassToArrayCheckValues($array);
     }
 
     /**
@@ -266,9 +264,11 @@ class Arrays
                 if ( ! $this->isAssociative($array) && ! is_numeric($firstKey)) {
                     $result = [];
                     foreach ($array as $arrayValue) {
-                        $arrayResult = $this->getValue($arrayValue, $key, null, $splitKey, $checkedValue);
-                        if ($arrayResult !== null) {
-                            $result[] = $arrayResult;
+                        if (is_array($arrayValue)) {
+                            $arrayResult = $this->getValue($arrayValue, $key, null, $splitKey, $checkedValue);
+                            if ($arrayResult !== null) {
+                                $result[] = $arrayResult;
+                            }
                         }
                     }
                     return empty($result) ? $defaultValue : $result;
